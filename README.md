@@ -19,3 +19,12 @@ This hackathon focuses on optimizing satellite imagery classification for ocean 
 1. Explore `Scripts/Diagnostics/` to understand the data issues
 2. Fix data alignment in `Tier1_DataFix/`
 3. Optimize performance in `Tier2_Optimization/`
+
+## 💾 Data Files
+Large data files (images, model) are available separately. Contact organizers for download links.
+
+The repository contains:
+- All Julia scripts
+- Labels (train.csv, test.csv)  
+- Problem statement
+- Reference solutions
