@@ -1,0 +1,17 @@
+# Large data files
+Data/train/
+Data/test/
+Data/transformer_model.onnx
+
+# Generated files
+*.csv
+*.model
+*.png
+
+# System files
+.DS_Store
+__pycache__/
+
+# Temporary files
+*.tmp
+*.log
