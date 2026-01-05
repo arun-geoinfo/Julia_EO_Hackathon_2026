@@ -10,8 +10,8 @@ using Printf
 using Statistics
 
 # ----------------------------- CONFIG -----------------------------
-FEATURES_FILE = "features_train_CORRECTLY_ALIGNED.csv"  # Use ALIGNED features
-TRAIN_LABELS_FILE = "train_labels_ALIGNED.csv" # Use ALIGNED labels
+FEATURES_FILE = "Data/features_train_CORRECTLY_ALIGNED.csv"  # Use ALIGNED features
+TRAIN_LABELS_FILE = "Data/train_labels_ALIGNED.csv" # Use ALIGNED labels
 LABEL_COLUMN = "ground_truth"
 
 XGB_PARAMS = Dict(

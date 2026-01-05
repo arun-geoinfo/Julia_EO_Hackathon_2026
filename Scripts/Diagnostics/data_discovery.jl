@@ -2,8 +2,8 @@ using CSV, DataFrames
 
 println("=== ULTIMATE DATA DISCOVERY ===")
 
-train = CSV.read("train.csv", DataFrame)
-features = CSV.read("features_train.csv", DataFrame)
+train = CSV.read(joinpath(@__DIR__, "../../Data/train.csv"), DataFrame)
+features = CSV.read(joinpath(@__DIR__, "../../Data/features_train.csv"), DataFrame)
 
 # Clean train IDs
 train_ids = [parse(Int, replace(id, ".png" => "")) for id in train.id]

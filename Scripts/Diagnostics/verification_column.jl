@@ -1,8 +1,16 @@
 using CSV, DataFrames
 using Statistics
 
+# Get the project root directory
+const SCRIPT_DIR = @__DIR__
+const PROJECT_ROOT = joinpath(SCRIPT_DIR, "..", "..")
+const DATA_DIR = joinpath(PROJECT_ROOT, "Data")
+
 println("================================================================================")
 println("🔍 SMART COLUMN-AWARE DATA VERIFICATION (FIXED WITH TRUTH)")
+println("Script directory: $SCRIPT_DIR")
+println("Project root: $PROJECT_ROOT")
+println("Data directory: $DATA_DIR")
 println("================================================================================\n")
 
 println("📊 STEP 1: SMART COLUMN ANALYSIS (WITH SAFE RANGES)")
@@ -42,14 +50,22 @@ function analyze_file(filename, max_rows=5, max_cols=5)
     end
 end
 
-# Analyze files
-train_df = analyze_file("train.csv")
-test_df = analyze_file("test.csv")
-features_train_df = analyze_file("features_train.csv")
-features_test_df = analyze_file("features_test.csv")
-features_train_correct_df = analyze_file("features_train_CORRECTLY_ALIGNED.csv")
-features_test_correct_df = analyze_file("features_test_CORRECTLY_ALIGNED.csv")
-submission_df = analyze_file("final_submission.csv")
+# Analyze files - USE ABSOLUTE PATHS
+train_path = joinpath(DATA_DIR, "train.csv")
+test_path = joinpath(DATA_DIR, "test.csv")
+features_train_path = joinpath(DATA_DIR, "features_train.csv")
+features_test_path = joinpath(DATA_DIR, "features_test.csv")
+features_train_correct_path = joinpath(DATA_DIR, "features_train_CORRECTLY_ALIGNED.csv")
+features_test_correct_path = joinpath(DATA_DIR, "features_test_CORRECTLY_ALIGNED.csv")
+submission_path = joinpath(DATA_DIR, "final_submission.csv")
+
+train_df = analyze_file(train_path)
+test_df = analyze_file(test_path)
+features_train_df = analyze_file(features_train_path)
+features_test_df = analyze_file(features_test_path)
+features_train_correct_df = analyze_file(features_train_correct_path)
+features_test_correct_df = analyze_file(features_test_correct_path)
+submission_df = analyze_file(submission_path)
 
 println("\n================================================================================")
 println("🔄 STEP 2: TRUTHFUL CROSS-COLUMN COMPARISON")
@@ -186,14 +202,14 @@ if submission_df !== nothing
         
         # Find examples
         println("\n  Examples of invalid predictions:")
-        count = 0
+        examples_count = 0  # Changed variable name
         for i in 1:nrow(submission_df)
             val = submission_df.ground_truth[i]
             if val < 0 || val > 1
                 id_val = submission_df.id[i]
                 println("    Row $i: ID=$id_val, Prediction=$val")
-                count += 1
-                if count >= 3
+                examples_count += 1
+                if examples_count >= 3
                     break
                 end
             end
@@ -211,11 +227,11 @@ println("🏆 FINAL VERDICT (TRUTH EDITION)")
 println("================================================================================\n")
 
 println("📋 SUMMARY OF REALITY:")
-println("1. train.csv: $(nrow(train_df)) rows")
-println("2. test.csv: $(nrow(test_df)) rows")
-println("3. features_train.csv: $(nrow(features_train_df)) rows")
-println("4. features_test_CORRECTLY_ALIGNED.csv: $(nrow(features_test_correct_df)) rows")
-println("5. final_submission.csv: $(nrow(submission_df)) rows")
+println("1. train.csv: $(train_df !== nothing ? nrow(train_df) : "NOT FOUND") rows")
+println("2. test.csv: $(test_df !== nothing ? nrow(test_df) : "NOT FOUND") rows")
+println("3. features_train.csv: $(features_train_df !== nothing ? nrow(features_train_df) : "NOT FOUND") rows")
+println("4. features_test_CORRECTLY_ALIGNED.csv: $(features_test_correct_df !== nothing ? nrow(features_test_correct_df) : "NOT FOUND") rows")
+println("5. final_submission.csv: $(submission_df !== nothing ? nrow(submission_df) : "NOT FOUND") rows")
 
 println("\n🔍 CRITICAL FINDINGS:")
 

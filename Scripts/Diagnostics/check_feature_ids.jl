@@ -4,12 +4,12 @@ using DataFrames, CSV
 println("Checking feature file IDs vs actual folder IDs...")
 
 # Get actual folder IDs (from verification we know they're 747454, 393676, etc.)
-train_df = CSV.read("train.csv", DataFrame)
+train_df = CSV.read("Data/train.csv", DataFrame)
 actual_train_ids = Set([replace(string(id), ".png" => "") for id in train_df[!, "id"]])
 
 # Check feature file IDs
-if isfile("features_train.csv")
-    feat_df = CSV.read("features_train.csv", DataFrame)
+if isfile("Data/features_train.csv")
+    feat_df = CSV.read("Data/features_train.csv", DataFrame)
     if "image_id" in names(feat_df)
         feature_ids = Set(string.(feat_df[!, "image_id"]))
         

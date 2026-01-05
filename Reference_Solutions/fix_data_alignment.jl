@@ -6,10 +6,10 @@ println("="^50)
 
 # 1. Load all data
 println("\n📊 Loading data...")
-train_labels = CSV.read("train.csv", DataFrame)
-test_labels = CSV.read("test.csv", DataFrame)
-feat_train = CSV.read("features_train.csv", DataFrame)
-feat_test = CSV.read("features_test.csv", DataFrame)
+train_labels = CSV.read("Data/train.csv", DataFrame)
+test_labels = CSV.read("Data/test.csv", DataFrame)
+feat_train = CSV.read("Data/features_train.csv", DataFrame)
+feat_test = CSV.read("Data/features_test.csv", DataFrame)
 
 # 2. Prepare IDs (remove .png extension)
 println("\n📝 Preparing IDs...")
@@ -58,15 +58,15 @@ println("\n💾 Saving aligned features...")
 
 # Save aligned train features (without ground_truth for features file)
 train_aligned_features = select(train_aligned, Not(:ground_truth))
-CSV.write("features_train_ALIGNED.csv", train_aligned_features)
+CSV.write("Data/features_train_ALIGNED.csv", train_aligned_features)
 println("Saved features_train_ALIGNED.csv with $(nrow(train_aligned_features)) rows")
 
 # Save aligned test features
-CSV.write("features_test_ALIGNED.csv", test_aligned)
+CSV.write("Data/features_test_ALIGNED.csv", test_aligned)
 println("Saved features_test_ALIGNED.csv with $(nrow(test_aligned)) rows")
 
 # Save aligned labels (just for reference)
-CSV.write("train_labels_ALIGNED.csv", select(train_aligned, [:image_id, :ground_truth]))
+CSV.write("Data/train_labels_ALIGNED.csv", select(train_aligned, [:image_id, :ground_truth]))
 println("Saved train_labels_ALIGNED.csv with $(nrow(train_aligned)) rows")
 
 # 6. Verify alignment

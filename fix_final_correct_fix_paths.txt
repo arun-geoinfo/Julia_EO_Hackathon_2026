@@ -1,0 +1,16 @@
+CHANGES NEEDED for final_correct_fix.jl:
+
+READING:
+1. Line 9: "test.csv" → "Data/test.csv"
+2. Line 16: "features_test.csv" → "Data/features_test.csv"
+3. Line 22: "features_test.csv" → "Data/features_test.csv"
+4. Line 131: "train.csv" → "Data/train.csv"
+5. Line 134: "features_train.csv" → "Data/features_train.csv"
+
+WRITING (need line numbers):
+- Find: "features_test_CORRECTLY_ALIGNED.csv" → Change to: "Data/features_test_CORRECTLY_ALIGNED.csv"
+- Find: "features_train_CORRECTLY_ALIGNED.csv" → Change to: "Data/features_train_CORRECTLY_ALIGNED.csv"
+
+ALSO CHECK:
+- Any other CSV.read or CSV.write calls
+- Any other file paths

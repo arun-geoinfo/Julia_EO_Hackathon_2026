@@ -1,10 +1,9 @@
 # Run this FIRST to see if data can merge
-julia -e '
 using CSV, DataFrames
 
 println("=== CHECK 1: CAN DATA MERGE? ===")
-features = CSV.read("features_train_CORRECTLY_ALIGNED.csv", DataFrame)
-train = CSV.read("train.csv", DataFrame)
+features = CSV.read("Data/features_train_CORRECTLY_ALIGNED.csv", DataFrame)
+train = CSV.read("Data/train.csv", DataFrame)
 
 println("1. Original data:")
 println("   Features ID type: $(eltype(features.image_id)), sample: $(features.image_id[1])")
@@ -32,4 +31,4 @@ else
         println("   Row $i: features=$(features.image_id[i]), train=$(train.image_id[i]), match? $(features.image_id[i] == train.image_id[i])")
     end
 end
-'
+

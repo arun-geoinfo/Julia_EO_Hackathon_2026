@@ -1,7 +1,6 @@
 # Large data files
-Data/train/
-Data/test/
-Data/transformer_model.onnx
+Data/*
+!Data/placeholder
 
 # Generated files
 *.csv
@@ -11,6 +10,7 @@ Data/transformer_model.onnx
 # System files
 .DS_Store
 __pycache__/
+.~lock*
 
 # Temporary files
 *.tmp

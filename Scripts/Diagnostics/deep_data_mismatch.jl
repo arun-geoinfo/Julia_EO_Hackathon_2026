@@ -10,11 +10,11 @@ println("="^80)
 println("\n📁 LOADING ALL CRITICAL FILES...")
 
 # Competition official files
-train_csv = CSV.read("train.csv", DataFrame)
-test_csv = CSV.read("test.csv", DataFrame)
+train_csv = CSV.read("Data/train.csv", DataFrame)
+test_csv = CSV.read("Data/test.csv", DataFrame)
 
 # Feature files (multiple versions)
-feature_files = filter(x -> occursin("feature", lowercase(x)) && endswith(x, ".csv"), readdir("."))
+feature_files = filter(x -> occursin("feature", lowercase(x)) && endswith(x, ".csv"), readdir("Data/"))
 println("Found $(length(feature_files)) feature files")
 
 # ============================================================================
@@ -45,8 +45,7 @@ for feature_file in sort(feature_files)
     
     try
         # Load feature file
-        features = CSV.read(feature_file, DataFrame)
-        
+features = CSV.read("Data/" * feature_file, DataFrame)        
         # Find ID column
         id_col = nothing
         possible_id_cols = ["image_id", "id", "ID", "Image_ID"]
@@ -113,8 +112,8 @@ end
 # ============================================================================
 println("\n📤 STEP 3: CHECKING SUBMISSION FILE")
 
-if isfile("final_submission.csv")
-    submission = CSV.read("final_submission.csv", DataFrame)
+if isfile("Data/final_submission.csv")
+    submission = CSV.read("Data/final_submission.csv", DataFrame)
     println("📄 final_submission.csv:")
     println("  Rows: $(nrow(submission))")
     println("  Columns: $(names(submission))")
@@ -204,10 +203,10 @@ function check_image_folder(folder_name, expected_ids)
 end
 
 # Check train folder
-train_png_count, train_overlap = check_image_folder("train", train_csv[!, "id"])
+train_png_count, train_overlap = check_image_folder("Data/train", train_csv[!, "id"])
 
 # Check test folder  
-test_png_count, test_overlap = check_image_folder("test", test_csv[!, "id"])
+test_png_count, test_overlap = check_image_folder("Data/test", test_csv[!, "id"])
 
 # ============================================================================
 # 6. COMPREHENSIVE MISMATCH ANALYSIS
@@ -217,7 +216,7 @@ println("📈 COMPREHENSIVE MISMATCH ANALYSIS")
 println("="^80)
 
 # Load one feature file for detailed analysis
-feature_file = "features_train.csv"
+feature_file = "Data/features_train.csv"
 if isfile(feature_file)
     features = CSV.read(feature_file, DataFrame)
     feature_ids = string.(features[!, "image_id"])
@@ -276,7 +275,7 @@ if test_png_count > 0 && test_overlap == 0
 end
 
 # Check 3: Feature file content
-feature_file = "features_train.csv"
+feature_file = "Data/features_train.csv"
 if isfile(feature_file)
     features = CSV.read(feature_file, DataFrame)
     feature_ids = string.(features[!, "image_id"])
@@ -293,7 +292,7 @@ if isfile(feature_file)
 end
 
 # Check 4: Submission alignment
-if isfile("final_submission.csv")
+if isfile("Data/final_submission.csv")
     submission = CSV.read("final_submission.csv", DataFrame)
     if "id" in names(submission)
         sub_ids = submission[!, "id"]
@@ -344,9 +343,9 @@ if any(occursin.("WRONG images", findings))
 end
 
 # Check specific common issue
-if isfile("features_train.csv") && isfile("train.csv")
-    features = CSV.read("features_train.csv", DataFrame)
-    train = CSV.read("train.csv", DataFrame)
+if isfile("Data/features_train.csv") && isfile("Data/train.csv")
+    features = CSV.read("Data/features_train.csv", DataFrame)
+    train = CSV.read("Data/train.csv", DataFrame)
     
     feature_ids = string.(features[!, "image_id"])
     train_ids = string.(train[!, "id"])

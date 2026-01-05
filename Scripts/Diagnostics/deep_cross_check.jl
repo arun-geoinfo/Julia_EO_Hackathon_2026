@@ -5,9 +5,14 @@ println("🔍 REAL DATA CROSS-CHECK - FINDING WHERE DATA ACTUALLY IS")
 println("================================================================================")
 
 println("\n📁 LOADING ALL FILES...")
-train = CSV.read("train.csv", DataFrame)
-features_train = CSV.read("features_train.csv", DataFrame)
-features_train_aligned = CSV.read("features_train_CORRECTLY_ALIGNED.csv", DataFrame)
+
+train = CSV.read(joinpath(@__DIR__, "../../Data/train.csv"), DataFrame)
+features_train = CSV.read(joinpath(@__DIR__, "../../Data/features_train.csv"), DataFrame)
+features_train_aligned = CSV.read(joinpath(@__DIR__, "../../Data/features_train_CORRECTLY_ALIGNED.csv"), DataFrame)
+
+
+
+
 
 println("✅ Files loaded")
 
@@ -135,7 +140,12 @@ println("train.csv IDs (first 5): $(train_ids[1:5])")
 # Search for these IDs in EVERY column of features_train
 println("\n🔍 Searching for train IDs in EACH column of features_train.csv...")
 
-found_matches = false
+
+
+
+
+
+global found_matches = false
 for (i, col) in enumerate(names(features_train))
     col_values = features_train[!, col]
     
@@ -152,7 +162,7 @@ for (i, col) in enumerate(names(features_train))
         if matches > 0
             println("🎉 COLUMN $i ('$col'): Found $matches/10 train IDs!")
             println("   Example: train ID $(train_ids[1]) found in this column? $(train_ids[1] in col_values)")
-            found_matches = true
+           global found_matches = true
             
             # Show where it appears
             idx = findfirst(x -> x == train_ids[1], col_values)
@@ -180,7 +190,7 @@ col1_aligned_values = features_train_aligned[!, col1_aligned]
 println("First column ('$col1_aligned') first 5 values: $(col1_aligned_values[1:5])")
 
 # Check if these match train IDs
-matches_aligned = 0
+global matches_aligned = 0
 for train_id in train_ids[1:5]
     if train_id in col1_aligned_values
         matches_aligned += 1
@@ -188,6 +198,16 @@ for train_id in train_ids[1:5]
 end
 
 println("Matches with train IDs: $matches_aligned/5")
+
+
+
+
+
+
+
+
+
+
 
 if matches_aligned == 5
     println("✅ PERFECT MATCH! features_train_CORRECTLY_ALIGNED.csv has correct IDs in column 1")
@@ -249,7 +269,7 @@ println("Trying different ways to read the CSV...")
 # Try reading without header
 println("\n1. Reading WITHOUT header (treating first row as data):")
 try
-    df_noheader = CSV.read("features_train.csv", DataFrame; header=false)
+    df_noheader = CSV.read("Data/features_train.csv", DataFrame; header=false)
     println("   First row as data: $(df_noheader[1, 1:5])")
     println("   Second row as data: $(df_noheader[2, 1:5])")
     

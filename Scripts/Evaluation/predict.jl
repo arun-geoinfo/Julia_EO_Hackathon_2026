@@ -7,12 +7,12 @@ println("="^60)
 
 # 1. Load test features
 println("\n[1/4] Loading test features...")
-test_features = CSV.read("features_test_CORRECTLY_ALIGNED.csv", DataFrame)
+test_features = CSV.read("Data/features_test_CORRECTLY_ALIGNED.csv", DataFrame)
 println("   Samples: $(nrow(test_features))")
 
 # 2. Load test IDs
 println("\n[2/4] Loading test IDs...")
-test_meta = CSV.read("test.csv", DataFrame)
+test_meta = CSV.read("Data/test.csv", DataFrame)
 println("   Samples: $(nrow(test_meta))")
 
 # 3. Prepare feature matrix
@@ -23,7 +23,7 @@ println("   Feature matrix: $(size(X_test, 1)) × $(size(X_test, 2))")
 
 # 4. Load the trained model
 println("\n[4/4] Loading model...")
-model_file = "final_xgboost_correctly_aligned.model"
+model_file = "Data/final_xgboost_correctly_aligned.model"
 
 if !isfile(model_file)
     # Try alternative model names
@@ -75,7 +75,7 @@ submission = DataFrame(
     ground_truth = predictions_clipped
 )
 
-output_file = "final_submission.csv"
+output_file = "Data/final_submission.csv"
 CSV.write(output_file, submission)
 println("   ✅ Submission saved: $output_file")
 

@@ -5,8 +5,8 @@ println("🎯 FINAL DIAGNOSTIC: Understanding the Mismatch")
 println("="^60)
 
 # 1. Get ALL image files in folders
-train_files = readdir("train/")
-test_files = readdir("test/")
+train_files = readdir("Data/train/")
+test_files = readdir("Data/test/")
 
 train_png = [f for f in train_files if endswith(f, ".png")]
 test_png = [f for f in test_files if endswith(f, ".png")]
@@ -16,8 +16,8 @@ println("Train: $(length(train_png)) PNG files")
 println("Test: $(length(test_png)) PNG files")
 
 # 2. Get CSV IDs
-train_csv = CSV.read("train.csv", DataFrame)
-test_csv = CSV.read("test.csv", DataFrame)
+train_csv = CSV.read("Data/train.csv", DataFrame)
+test_csv = CSV.read("Data/test.csv", DataFrame)
 
 csv_train_ids = Set([replace(id, ".png" => "") for id in train_csv.id])
 csv_test_ids = Set([replace(id, ".png" => "") for id in test_csv.id])
@@ -27,8 +27,8 @@ println("Train CSV: $(length(csv_train_ids)) IDs")
 println("Test CSV: $(length(csv_test_ids)) IDs")
 
 # 3. Get feature file IDs
-feat_train = CSV.read("features_train.csv", DataFrame)
-feat_test = CSV.read("features_test.csv", DataFrame)
+feat_train = CSV.read("Data/features_train.csv", DataFrame)
+feat_test = CSV.read("Data/features_test.csv", DataFrame)
 
 feat_train_ids = Set(string.(feat_train[!, :image_id]))
 feat_test_ids = Set(string.(feat_test[!, :image_id]))

@@ -61,7 +61,7 @@ function check_hardware()
     end
 end
 
-function create_session(model_path="transformer_model.onnx")
+function create_session(model_path="Data/transformer_model.onnx")
     ort = pyimport("onnxruntime")
    
     println("\nInitializing ONNX Runtime...")
@@ -342,18 +342,32 @@ function extract_from_directory(dir_name::String, session_info, max_images::Int)
     end
 end
 
+
+
 function save_features(df::DataFrame, filename::String)
     if nrow(df) > 0
+        # Create directory if it doesn't exist
+        dir = dirname(filename)
+        if !isempty(dir) && !isdir(dir)
+            mkpath(dir)
+            println("📁 Created directory: $dir")
+        end
+        
         CSV.write(filename, df)
         size_mb = round(filesize(filename) / 1024^2, digits=2)
         println("💾 Saved: $filename ($size_mb MB)")
     end
 end
 
+
+
+
+
+
 function main()
     println("Starting Ocean Internal Wave Feature Extraction...")
    
-    if !isfile("transformer_model.onnx")
+    if !isfile("Data/transformer_model.onnx")
         println("❌ Error: transformer_model.onnx not found!")
         return
     end
@@ -374,18 +388,18 @@ function main()
        
         if choice == 1
             println("\n📊 MODE: Extract from TRAIN images")
-            df, count = extract_from_directory("train", session_info, max_images)
+            df, count = extract_from_directory("Data/train", session_info, max_images)
             if count > 0
-                save_features(df, "features_train.csv")
+                save_features(df, "Data/features_train.csv")
             else
                 println("⚠️ No features extracted from train directory")
             end
            
         elseif choice == 2
             println("\n📊 MODE: Extract from TEST images")
-            df, count = extract_from_directory("test", session_info, max_images)
+            df, count = extract_from_directory("Data/test", session_info, max_images)
             if count > 0
-                save_features(df, "features_test.csv")
+                save_features(df, "Data/features_test.csv")
             else
                 println("⚠️ No features extracted from test directory")
             end
@@ -394,17 +408,17 @@ function main()
             println("\n📊 MODE: Extract from BOTH directories")
            
             println("\n" * "="^40)
-            df_train, count_train = extract_from_directory("train", session_info, max_images)
+            df_train, count_train = extract_from_directory("Data/train", session_info, max_images)
             if count_train > 0
-                save_features(df_train, "features_train.csv")
+                save_features(df_train, "Data/features_train.csv")
             else
                 println("⚠️ No features extracted from train directory")
             end
            
             println("\n" * "="^40)
-            df_test, count_test = extract_from_directory("test", session_info, max_images)
+            df_test, count_test = extract_from_directory("Data/test", session_info, max_images)
             if count_test > 0
-                save_features(df_test, "features_test.csv")
+                save_features(df_test, "Data/features_test.csv")
             else
                 println("⚠️ No features extracted from test directory")
             end
@@ -412,7 +426,7 @@ function main()
             if count_train > 0 && count_test > 0
                 println("\n🔗 Combining train and test features...")
                 df_all = vcat(df_train, df_test)
-                save_features(df_all, "features_all.csv")
+                save_features(df_all, "Data/features_all.csv")
                 println("✅ Combined features saved: features_all.csv")
             elseif count_train > 0 || count_test > 0
                 println("⚠️ Only one directory had features - skipping combined file")

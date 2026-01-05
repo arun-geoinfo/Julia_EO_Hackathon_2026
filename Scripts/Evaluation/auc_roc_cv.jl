@@ -12,8 +12,8 @@ using Printf
 using Random
 
 # ----------------------------- CONFIG -----------------------------
-FEATURES_FILE = "features_train_CORRECTLY_ALIGNED.csv"
-TRAIN_METADATA = "train.csv" # Must have columns: id, ground_truth
+FEATURES_FILE = "Data/features_train_CORRECTLY_ALIGNED.csv"
+TRAIN_METADATA = "Data/train.csv" # Must have columns: id, ground_truth
 LABEL_COLUMN = "ground_truth"
 
 # CORRECTED XGBoost parameters to prevent overfitting
